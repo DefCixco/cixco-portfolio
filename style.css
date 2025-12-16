@@ -1942,7 +1942,7 @@ footer {
 
 .cta-btn {
     background: var(--accent-color);
-    color: #000; /* Assuming black text on red button */
+    color: #ffffff; /* Assuming black text on red button */
     padding: 15px 40px;
     border-radius: 50px;
     text-decoration: none;
