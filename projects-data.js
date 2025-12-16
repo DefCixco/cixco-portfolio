@@ -87,7 +87,7 @@ const projects = [
     category: "WEB & CRM SYSTEMS",
     summary: "Built a full website and CRM setup in GoHighLevel to help an automation agency capture leads, manage clients, and organize their sales pipeline in one place.",
     tools: ["GoHighLevel", "CRM Pipelines", "Form Automation", "Tagging System"],
-    heroImage: "/Example/1217a6c0-054a-4d5d-a959-409abb99a606agency",
+    heroImage: "/Example/1217a6c0-054a-4d5d-a959-409abb99a606agency.png",
 
     context: "The agency needed a professional website that could do more than just present their services. They wanted a single system where they could capture inquiries, manage leads, track client status, and organize ongoing relationships without switching between multiple tools.",
 
