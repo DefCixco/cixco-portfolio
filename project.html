@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Details | Cixco</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="project-page-body">
+
+    <nav class="navbar-container">
+        <div class="nav-content">
+            <a href="index.html" class="logo-area">
+                <img src="/images/CIXCO LOGOWHITE 3.png" alt="Cixco" class="logo-img">
+            </a>
+            <a href="index.html#My-recent-work" class="back-btn">← Back to Work</a>
+        </div>
+    </nav>
+
+    <header class="proj-hero">
+        <span class="proj-category" id="p-category">CATEGORY</span>
+        <h1 id="p-title">Project Title</h1>
+        <p class="proj-summary" id="p-summary">One-line summary goes here.</p>
+        
+        <div class="proj-tools" id="p-tools">
+            </div>
+    </header>
+
+    <section class="proj-banner">
+        <img id="p-hero-img" src="" alt="Project Cover">
+    </section>
+
+    <div class="case-study-container">
+
+        <section id="sec-context" class="cs-section">
+            <h2 class="cs-label">01. The Context</h2>
+            <p id="p-context" class="cs-text">Loading...</p>
+        </section>
+
+        <section id="sec-goals" class="cs-section">
+            <h2 class="cs-label">02. Goals & Constraints</h2>
+            <div class="cs-grid">
+                <div class="cs-card">
+                    <h3>🎯 Goals</h3>
+                    <ul id="p-goals" class="cs-list"></ul>
+                </div>
+                <div class="cs-card">
+                    <h3>⚠️ Constraints</h3>
+                    <ul id="p-constraints" class="cs-list"></ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="sec-approach" class="cs-section">
+            <h2 class="cs-label">03. My Approach</h2>
+            <div class="approach-box">
+                <p id="p-approach" class="cs-text">Loading...</p>
+            </div>
+        </section>
+
+        <section id="sec-solution" class="cs-section">
+            <h2 class="cs-label">04. The Solution</h2>
+            <ul id="p-solution" class="check-list"></ul>
+        </section>
+
+        <section id="sec-outcome" class="cs-section">
+            <h2 class="cs-label">05. The Outcome</h2>
+            <p id="p-outcome" class="cs-text">Loading...</p>
+        </section>
+
+        <section id="sec-video" class="cs-section">
+            <h2 class="cs-label">06. Preview</h2>
+            
+            <div id="p-video-wrapper" class="video-wrapper" style="display:none;">
+                </div>
+
+            <div class="btn-wrapper" style="margin-top: 30px;">
+                <a href="#" class="live-site-btn" target="_blank">Visit Live Site ↗</a>
+            </div>
+        </section>
+
+
+        <section class="cs-section" id="reflection-section">
+            <h2 class="cs-label">💡 Reflection</h2>
+            <div class="reflection-box">
+                <p id="p-reflection">Loading...</p>
+            </div>
+        </section>
+
+        <section class="cs-cta">
+            <h3>Have a similar system challenge?</h3>
+            <p>I can help design a solution that fits your workflow.</p>
+            <a href="https://www.upwork.com/freelancers/~01d6a1ce9088870f16?mp_source=share" target="_blank" class="cta-btn">Hire Me on Upwork</a>
+        </section>
+
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <p class="copyright">© 2025 Cixco. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+<script src="projects-data.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const params = new URLSearchParams(window.location.search);
+        const projectId = params.get('id');
+        const project = projects.find(p => p.id === projectId);
+
+        if (project) {
+            // --- 1. BASIC TEXT INJECTION ---
+            document.getElementById('p-category').textContent = project.category || "";
+            document.getElementById('p-title').textContent = project.title || "";
+            document.getElementById('p-summary').textContent = project.summary || "";
+            document.getElementById('p-hero-img').src = project.heroImage || "";
+
+            // --- 2. SMART SECTION HIDING (Text Sections) ---
+            function hideIfEmpty(sectionId, data, elementId) {
+                const section = document.getElementById(sectionId);
+                const element = document.getElementById(elementId);
+                
+                if (data && data.length > 0) {
+                    section.style.display = "block";
+                    element.textContent = data;
+                } else {
+                    if (section) section.style.display = "none";
+                }
+            }
+
+            hideIfEmpty('sec-context', project.context, 'p-context');
+            hideIfEmpty('sec-approach', project.approach, 'p-approach');
+            hideIfEmpty('sec-outcome', project.outcome, 'p-outcome');
+
+            // --- 3. GOALS & CONSTRAINTS ---
+            const goalsSec = document.getElementById('sec-goals');
+            const hasGoals = project.goals && project.goals.length > 0;
+            const hasConstraints = project.constraints && project.constraints.length > 0;
+
+            if (hasGoals || hasConstraints) {
+                goalsSec.style.display = "block";
+                fillList('p-goals', project.goals);
+                fillList('p-constraints', project.constraints);
+            } else {
+                goalsSec.style.display = "none";
+            }
+
+            // --- 4. THE SOLUTION (List Only) ---
+            // Independent check: If no list points, hide this entire section
+            const solutionSec = document.getElementById('sec-solution');
+            const hasSolutionPoints = project.solutionPoints && project.solutionPoints.length > 0;
+            
+            if (hasSolutionPoints) {
+                solutionSec.style.display = "block";
+                fillList('p-solution', project.solutionPoints);
+            } else {
+                solutionSec.style.display = "none";
+            }
+
+            // --- 5. VIDEO WALKTHROUGH & LIVE LINK ---
+            // Independent check: If no video AND no link, hide this entire section
+            const videoSec = document.getElementById('sec-video');
+            const videoWrapper = document.getElementById('p-video-wrapper');
+            const ctaBtn = document.querySelector('.live-site-btn');
+            const btnWrapper = document.querySelector('.btn-wrapper');
+
+            // A. Handle Video
+            const hasVideo = project.videoEmbed && project.videoEmbed !== "";
+            if (hasVideo) {
+                videoWrapper.style.display = "block";
+                videoWrapper.innerHTML = project.videoEmbed;
+            } else {
+                videoWrapper.style.display = "none";
+            }
+
+            // B. Handle Button
+            const hasLink = project.liveLink && project.liveLink !== "";
+            if (hasLink) {
+                if (btnWrapper) btnWrapper.style.display = "block";
+                if (ctaBtn) {
+                    ctaBtn.style.display = "inline-block";
+                    ctaBtn.href = project.liveLink;
+                }
+            } else {
+                if (btnWrapper) btnWrapper.style.display = "none";
+                if (ctaBtn) ctaBtn.style.display = "none";
+            }
+
+            // C. Master Switch: Hide "Video Walkthrough" section if both are empty
+            if (!hasVideo && !hasLink) {
+                videoSec.style.display = "none";
+            } else {
+                videoSec.style.display = "block";
+            }
+
+            // --- 6. REFLECTION ---
+            if (project.reflection) {
+                document.getElementById('p-reflection').textContent = project.reflection;
+                document.getElementById('reflection-section').style.display = 'block';
+            } else {
+                document.getElementById('reflection-section').style.display = 'none';
+            }
+
+            // --- 7. TOOLS PILLS ---
+            const toolsContainer = document.getElementById('p-tools');
+            toolsContainer.innerHTML = '';
+            if (project.tools) {
+                project.tools.forEach(tool => {
+                    const span = document.createElement('span');
+                    span.className = 'tool-pill';
+                    span.textContent = tool;
+                    toolsContainer.appendChild(span);
+                });
+            }
+
+        } else {
+            document.body.innerHTML = "<h1 style='color:white;text-align:center;margin-top:100px;'>Project Not Found</h1>";
+        }
+
+        // Helper for Lists
+        function fillList(elementId, dataArray) {
+            const list = document.getElementById(elementId);
+            list.innerHTML = ''; 
+            if (dataArray) {
+                dataArray.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item;
+                    list.appendChild(li);
+                });
+            }
+        }
+    });
+</script>
+
+<script src="script.js"></script>
+
+</body>
+</html>
