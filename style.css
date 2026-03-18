@@ -47,9 +47,9 @@ body {
 .nav-content {
     /* SIZE & SHAPE */
     width: 100%; 
-    max-width: 1200px; /* CUSTOMIZE THIS: Controls how wide the bar is */
-    border-radius: 16px; /* The "Pill" shape */
-    padding: 15px 40px;
+    max-width: 1400px; /* CUSTOMIZE THIS: Controls how wide the bar is */
+    border-radius: 12px; /* The "Pill" shape */
+    padding: 20px 40px;
     
     /* LAYOUT */
     display: flex;
@@ -110,6 +110,53 @@ body {
     opacity: 1;
 }
 
+/* --- CTA NAV BUTTONS (Desktop Layout) --- */
+.nav-actions {
+    display: flex;
+    gap: 15px; /* Keeps the two buttons close to each other */
+    align-items: center;
+}
+
+.mobile-nav-btn {
+    display: none; /* Hides the mobile duplicates on desktop */
+}
+
+/* Base Button Styles */
+.nav-btn {
+    padding: 8px 15px;
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+    font-family: 'Poppins', sans-serif;
+}
+
+.btn-upwork {
+    border: 0.7px solid #ff000080;
+    color: #ffffff;
+    background: transparent;
+}
+
+.btn-upwork:hover {
+    background: #161616;
+    color: #ffffff;
+    box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
+}
+
+.btn-ghl {
+    border: 0.7px solid var(--accent-color);
+    background: var(--accent-color);
+    color: #ffffff;
+}
+
+.btn-ghl:hover {
+    background: #161616;
+    color: #ffffff;
+    box-shadow: 0 5px 15px rgba(255, 0, 0, 0.4);
+}
 
 
 /* --- HAMBURGER MENU STYLES --- */
@@ -197,6 +244,41 @@ body {
     .hamburger.active .bar:nth-child(3) {
         transform: translateY(-8px) rotate(-45deg);
         background-color: var(--accent-color); /* Turns Red */
+    }
+
+    /* --- CTA NAV BUTTONS (Mobile Adjustments) --- */
+    .nav-btn-item {
+        width: 100%;
+        padding: 0 20px; 
+    }
+    
+    .nav-links a.nav-btn {
+        display: block; 
+        width: 100%;
+        text-align: center;
+        padding: 12px 0;
+        font-size: 1rem;
+        margin-bottom: 5px;
+    }
+
+
+    .nav-actions {
+        display: none; /* Hide the right-side buttons on phones */
+    }
+
+    .mobile-nav-btn {
+        display: block; /* Show the buttons inside the menu list */
+        width: 100%;
+        padding: 0 20px; 
+    }
+    
+    .mobile-nav-btn .nav-btn {
+        display: block; 
+        width: 100%;
+        text-align: center;
+        padding: 12px 0;
+        font-size: 1rem;
+        margin-bottom: 10px;
     }
 }
 
@@ -383,12 +465,22 @@ animation: blink 2s infinite;
     position: relative;
     display: inline-block;
     text-decoration: none;
-    margin-top: 4rem;
-    padding: 3px; /* The border thickness */
-    border-radius: 12px;
+    margin-top: 5rem;
+    padding: 2px; /* The border thickness */
+    border-radius: 50px;
     background-color: #3435341a; /* Subtle base border */
     overflow: hidden; /* Keeps the light inside */
     transition: transform 1s;
+}
+
+/* --- HERO BUTTONS WRAPPER --- */
+.hero-buttons-wrapper {
+    display: flex;
+    justify-content: center; /* Centers the buttons on the screen */
+    align-items: center;
+    gap: 30px; /* The space between the two buttons */
+    flex-wrap: wrap; /* Safety feature: stacks them if the screen is too small */
+    width: 100%;
 }
 
 /* LAYER 1: THE MOVING SPOTLIGHT (Animation) */
@@ -433,11 +525,11 @@ animation: blink 2s infinite;
 .framer-content {
     position: relative;
     z-index: 3;
-    background-color: #161616; /* Deep dark bg */
-    border-radius: 12px;
+    background-color: #141414; /* Deep dark bg */
+    border-radius: 50px;
     border: 0.5px solid;
-    border-color: #ff0000;
-    padding: 12px 100px;
+    border-color: #000000;
+    padding: 12px 50px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -445,6 +537,26 @@ animation: blink 2s infinite;
 
 .framer-content span {
     color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+}
+
+
+.framer-content-1 {
+    position: relative;
+    z-index: 3;
+    background-color: #ffffff; /* Deep dark bg */
+    border-radius: 50px;
+    border: 0.5px solid;
+    border-color: #ffffff;
+    padding: 12px 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.framer-content-1 span {
+    color: #000000;
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
 }
