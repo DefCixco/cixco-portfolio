@@ -48,8 +48,8 @@ body {
     /* SIZE & SHAPE */
     width: 100%; 
     max-width: 1400px; /* CUSTOMIZE THIS: Controls how wide the bar is */
-    border-radius: 12px; /* The "Pill" shape */
-    padding: 20px 40px;
+    border-radius: 50px; /* The "Pill" shape */
+    padding: 20px 60px;
     
     /* LAYOUT */
     display: flex;
@@ -830,7 +830,7 @@ div.browser-card:hover .card-header {
     display: grid;
     grid-template-columns: 1fr 1fr; /* Split 50/50 */
     gap: 60px;
-    align-items: center;
+    align-items: right;
 }
 
 /* --- COLUMN 1: VISUALS --- */
@@ -870,7 +870,7 @@ div.browser-card:hover .card-header {
 /* THE FLOATING GLASS BADGE */
 .floating-badge {
     position: absolute;
-    bottom: 30px;
+    top: 400px;
     right: -20px; /* Floats off the edge */
     
     /* Glass Effect */
