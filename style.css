@@ -18,10 +18,10 @@ section {
     --card-bg: #111111; /* Dark grey for cards */
     --text-color: #ffffff;  /* Main Headings */
     --text-muted: #a0a0a0;  /* Paragraphs (Silver) */
-    --accent-color: #ff0000; /* Bright Red */
+    --accent-color: #1CD5FB; /* Bright Red */
     --secondarybackground: linear-gradient(135deg, #192043 0%, #1f1120 100%);
-    --accent-glow: rgba(255, 0, 0, 0.4); /* Red Glow */
-    --main-gradient: linear-gradient(to right, #ff0000 0%, #c26666 100%);
+    --accent-glow: rgba(28, 213, 251, 0.4); /* Red Glow */
+    --main-gradient: linear-gradient(to right, #1CD5FB 0%, #c1f3fd 100%);
 }
 
 body {
@@ -31,51 +31,66 @@ body {
     line-height: 1.6;
 }
 
-/* --- NAVIGATION --- */
+/* ========================================================= */
+/* --- GLOBAL NAV SETTINGS ---                               */
+/* ========================================================= */
+
 .navbar-container {
     position: fixed; /* Sticks to the screen */
-    top: 10px; /* The "Float": Keeps it 20px off the top ceiling */
+    top: 20px; /* Keeps it 30px off the top ceiling */
     left: 0;
     right: 0;
     width: 100%;
     display: flex;
-    justify-content: center; /* Centers our floating island */
+    justify-content: center; /* Centers the floating island */
     z-index: 1000;
-    padding: 0 10px; /* Prevents it from touching edges on small screens */
+    padding: 0 10px; /* Prevents touching edges on small screens */
+    box-sizing: border-box; /* [FIX] Prevents padding from causing screen overflow */
 }
 
 .nav-content {
     /* SIZE & SHAPE */
     width: 100%; 
-    max-width: 1400px; /* CUSTOMIZE THIS: Controls how wide the bar is */
+    max-width: 1500px; 
     border-radius: 50px; /* The "Pill" shape */
-    padding: 20px 60px;
+    padding: 20px 50px;
+    
+    /* [FIX] Anchors the mobile dropdown menu so it doesn't break the layout */
+    position: relative; 
+    box-sizing: border-box; /* [FIX] Prevents padding from causing screen overflow */
     
     /* LAYOUT */
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    /* THE DEFAULT "TOP" STATE (Glassy & Transparent) */
-    background: rgba(20, 20, 20, 0.3); /* Low opacity dark */
-    backdrop-filter: blur(5px); /* The Blur Effect */
-    border: 0px solid rgba(255, 255, 255, 0); /* Subtle border */
-    
-    /* ANIMATION */
-    transition: all 0.4s ease-in-out; /* Smooth transition for everything */
+    /* DEFAULT STATE (Glassy) */
+    background: rgba(20, 20, 20, 0.3); 
+    backdrop-filter: blur(5px); 
+    border: 0px solid rgba(255, 255, 255, 0); 
+    transition: all 0.4s ease-in-out; 
 }
 
-/* THE "SCROLLED" STATE (Darker & Solid) */
-/* We will toggle this class with JavaScript */
+/* SCROLLED STATE (Darker & Solid via JS) */
 .nav-content.scrolled {
-    background: rgba(10, 10, 10, 0.85); /* Much darker */
-    backdrop-filter: blur(30px); /* Stronger blur */
-    border: 1px solid rgba(255, 0, 0, 1); /* Slight red tint on border */
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* Drop shadow appears */
-    scale: 1.03;
+    background: rgba(10, 10, 10, 0.85); 
+    backdrop-filter: blur(30px); 
+    border: 1px solid rgba(28, 213, 251, 1); 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+    scale: 1.01;
 }
 
-/* LOGO STYLING */
+/* Only apply the scale effect on larger screens (tablets and desktops) */
+@media (min-width: 768px) {
+    .nav-content.scrolled {
+        scale: 1.01;
+    }
+}
+
+/* ========================================================= */
+/* --- LOGO & LINKS ---                                      */
+/* ========================================================= */
+
 .logo-area {
     display: flex;
     align-items: center;
@@ -83,16 +98,17 @@ body {
 }
 
 .logo-img {
-    height: 25px; /* Adjust based on your logo size */
+    height: 25px; 
     width: auto;
-    display: block; /* shows the logo image */
+    display: block; 
 }
 
-/* LINK STYLING */
 .nav-links {
     list-style: none;
     display: flex;
     gap: 1.5rem;
+    margin: 0;
+    padding: 0;
 }
 
 .nav-links a {
@@ -110,15 +126,21 @@ body {
     opacity: 1;
 }
 
-/* --- CTA NAV BUTTONS (Desktop Layout) --- */
+/* ========================================================= */
+/* --- DESKTOP BUTTONS & CTA ---                             */
+/* ========================================================= */
+
 .nav-actions {
     display: flex;
-    gap: 15px; /* Keeps the two buttons close to each other */
+    gap: 15px; 
     align-items: center;
 }
 
-.mobile-nav-btn {
-    display: none; /* Hides the mobile duplicates on desktop */
+/* Hide mobile elements on desktop */
+.mobile-nav-btn,
+.mobile-cta,
+.hamburger {
+    display: none; 
 }
 
 /* Base Button Styles */
@@ -132,10 +154,11 @@ body {
     transition: all 0.3s ease;
     display: inline-block;
     font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
 }
 
 .btn-upwork {
-    border: 0.7px solid #ff000080;
+    border: 0.7px solid rgba(28, 213, 251, 0.5); /* Converted Hex with Opacity to valid format */
     color: #ffffff;
     background: transparent;
 }
@@ -143,27 +166,24 @@ body {
 .btn-upwork:hover {
     background: #161616;
     color: #ffffff;
-    box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
+    box-shadow: 0 5px 15px rgba(28, 213, 251, 0.3);
 }
 
 .btn-ghl {
-    border: 0.7px solid var(--accent-color);
-    background: var(--accent-color);
-    color: #ffffff;
+    border: 1px solid transparent;
+    background: #ffffff;
+    color: #000000;
 }
 
 .btn-ghl:hover {
+    border: 0.7px solid #1CD5FB;
     background: #161616;
     color: #ffffff;
-    box-shadow: 0 5px 15px rgba(255, 0, 0, 0.4);
+    box-shadow: 0 5px 15px rgba(28, 213, 251, 0.4);
 }
 
-
-/* --- HAMBURGER MENU STYLES --- */
-
-/* 1. Default: Hide Hamburger on Desktop */
+/* --- HAMBURGER ICON (Desktop hidden) --- */
 .hamburger {
-    display: none;
     cursor: pointer;
 }
 
@@ -177,130 +197,120 @@ body {
     border-radius: 3px;
 }
 
-.mobile-cta {
-    display: none; /* Hide extra CTA on desktop */
-}
+/* ========================================================= */
+/* --- MOBILE VIEW (Max Width 768px) ---                     */
+/* ========================================================= */
 
-/* 2. MOBILE VIEW (Max Width 768px) */
 @media (max-width: 768px) {
     
-    /* Show Hamburger */
     .hamburger {
         display: block;
-        z-index: 1001; /* Stays on top */
+        z-index: 1001; 
     }
 
- .nav-content {
-        /* Top/Bottom: 10px, Left/Right: 10px */
+    .nav-content {
         padding: 15px 20px; 
     }
     
-    /* Turn the Menu into a Vertical Dropdown */
+    /* Vertical Dropdown Menu */
     .nav-links {
         position: absolute;
-        top: 70px; /* Pushes it below the navbar pill */
+        top: 70px; 
         left: 0;
         right: 0;
-        background: rgba(10, 10, 10, 0.95); /* Solid dark background */
+        background: rgba(10, 10, 10, 0.95); 
         backdrop-filter: blur(10px);
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 16px;
-        
-        flex-direction: column; /* Stack items vertically */
+        flex-direction: column; 
         align-items: center;
         gap: 25px;
         padding: 40px 0;
+        box-sizing: border-box; /* [FIX] Prevents overflow */
         
-        /* HIDE IT BY DEFAULT */
+        /* Hidden by Default */
         opacity: 0;
         transform: translateY(-20px);
-        pointer-events: none; /* Can't click when hidden */
+        pointer-events: none; 
         transition: all 0.3s ease;
     }
     
-    /* THE ACTIVE STATE (When Opened) */
+    /* ACTIVE STATE (When Opened) */
     .nav-links.active {
         opacity: 1;
         transform: translateY(0);
         pointer-events: auto;
     }
 
-    .mobile-cta {
-        display: block; /* Show CTA in mobile menu */
-        margin-top: 10px;
-        border: 1px solid var(--accent-color);
-        padding: 10px 30px;
-        border-radius: 20px;
-    }
-
-    /* ANIMATE HAMBURGER TO 'X' */
+    /* Animate Hamburger to 'X' */
     .hamburger.active .bar:nth-child(1) {
         transform: translateY(8px) rotate(45deg);
-        background-color: var(--accent-color); /* Turns Red */
+        background-color: var(--accent-color); 
     }
     .hamburger.active .bar:nth-child(2) {
         opacity: 0;
     }
     .hamburger.active .bar:nth-child(3) {
         transform: translateY(-8px) rotate(-45deg);
-        background-color: var(--accent-color); /* Turns Red */
+        background-color: var(--accent-color); 
     }
 
-    /* --- CTA NAV BUTTONS (Mobile Adjustments) --- */
-    .nav-btn-item {
-        width: 100%;
-        padding: 0 20px; 
+    /* Hide desktop buttons */
+    .nav-actions {
+        display: none; 
     }
-    
-    .nav-links a.nav-btn {
+
+    /* Show mobile buttons inside menu */
+    .mobile-cta,
+    .mobile-nav-btn {
         display: block; 
         width: 100%;
-        text-align: center;
-        padding: 12px 0;
-        font-size: 1rem;
-        margin-bottom: 5px;
-    }
-
-
-    .nav-actions {
-        display: none; /* Hide the right-side buttons on phones */
-    }
-
-    .mobile-nav-btn {
-        display: block; /* Show the buttons inside the menu list */
-        width: 100%;
         padding: 0 20px; 
+        box-sizing: border-box; /* [FIX] Prevents overflow */
+    }
+
+    .mobile-cta {
+        margin-top: 10px;
+        border: 1px solid var(--accent-color);
+        padding: 10px 30px;
+        border-radius: 20px;
+        text-align: center;
     }
     
-    .mobile-nav-btn .nav-btn {
+    .mobile-nav-btn .nav-btn,
+    .nav-btn-item {
         display: block; 
         width: 100%;
         text-align: center;
         padding: 12px 0;
         font-size: 1rem;
         margin-bottom: 10px;
+        box-sizing: border-box; /* [FIX] Prevents overflow */
     }
 }
 
 
 
 
-/* --- HERO SECTION --- */
+/* ========================================================= */
+/* --- HERO SECTION (DESKTOP & GLOBAL) ---                   */
+/* ========================================================= */
+
 .hero-section {
-    min-height: 100vh; /* Full screen height */
+    min-height: 100vh; 
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
     padding: 0 20px;
     background-image: url('/images/_DSC0960.png');
-    background-size: cover;    /* Ensures image covers full screen */
-    background-position: center center; /* Centers the image */
+    background-size: cover;    
+    background-position: center center; 
     background-repeat: no-repeat;
     position: relative;
 }
 
-/* THE ANIMATED OVERLAY (The "Sheet of Glass") */
+/* THE ANIMATED OVERLAY */
 .hero-section::before {
     content: '';
     position: absolute;
@@ -308,52 +318,45 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 1; /* Sits on top of image, but below text */
+    z-index: 1; 
     background: linear-gradient(
         120deg, 
-        #010161cc, /* Blue with transparency */
-        #7a043fcc, /* Pink with transparency */
-        #1a6102cc  /* Green with transparency */
+        #07223Dcc, 
+        #0a3358cc, 
+        #051829cc  
      );
-    background-size: 400% 400%; /* Makes the gradient big so we can move it */
+    background-size: 400% 400%; 
     opacity: 1;
-    /* The Animation Trigger */
     animation: colorShift 10s ease infinite;
 }
 
-/* --- KEYFRAME ANIMATIONS --- */
 @keyframes colorShift {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%; /* Moves the gradient across */
-    }
-    100% {
-        background-position: 0% 50%; /* Moves it back */
-    }
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
-/* TABLET VIEW (Screens wider than 768px) */
+/* TABLET VIEW */
 @media (min-width: 768px) {
     .hero-section {
-        /* On tablets, we might want to see a bit more of the top */
         background-position: center top; 
     }
 }
 
-/* 3. DESKTOP VIEW (Screens wider than 1024px) */
+/* DESKTOP VIEW */
 @media (min-width: 1024px) {
     .hero-section {
-        /* YOUR CUSTOM TWEAK */
-        /* This says: 50% (Center horizontal), 20% (Vertical position) */
-        /* Lower % = Shows top of image. Higher % = Shows bottom. */
-        /* Try changing 20% to find that perfect "-50px" spot */
         background-position: 50% 17%; 
     }
 }
 
+/* ========================================================= */
+/* --- HERO CONTENT & TYPOGRAPHY ---                         */
+/* ========================================================= */
+
 .hero-content {
+    margin-top: 130px;
+    margin-bottom: 150px;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -361,57 +364,94 @@ body {
     width: 100%;
     z-index: 2;
     align-items: center;
-    max-width: 1150px;
+    max-width: 1400px;
 }
 
 .hero-content h1 {
-    font-family: 'Poppins' sans-serif;
-    font-size: 3.7rem;
-    line-height: 65px;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 3.0rem;
+    line-height: 60px;
+    padding-top: 40px;
+    padding-bottom: 40px;
     color: #fff;
 }    
 
 .hero-content p {
-font-size: 1.6rem;
-color: #d9d9d9;
-font-family: 'Poppins' sans-serif;
-margin-top: 0px;
-margin-bottom: 0px;
-line-height: 35px;
-text-align: center;
+    font-size: 1.8rem;
+    color: #d9d9d9;
+    font-family: 'Poppins', sans-serif;
+    margin-top: 20px;
+    margin-bottom: 0px;
+    line-height: 35px;
+    text-align: center; 
+}
+
+.greeting-wrapper {
+    display: flex;          
+    align-items: center;    
+    gap: 50px;    
+    margin-top: 0px;          
+}
+
+.hero-profile-pic {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
 }
 
 .hero-content p.p-name {
-    font-size: 3rem;
+    font-size: 2.3rem;
     text-align: center;
-    margin-top: 120px;
     line-height: normal;
+    font-weight: 600;
+}
+
+.hero-content p.p-name-2 {
+    font-size: 1.1rem;
+    color: #d9d9d9;
+    font-family: 'Poppins', sans-serif;
+    margin-top: 0px; /* Fixed typo here */
+    margin-bottom: 20px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.hero-content p.p-name-3 {
+    font-weight: 500;
+}
+
+/* --- TEXT HIGHLIGHTS & EFFECTS --- */
+
+.funnel1 {
+    color: #1CD5FB;
+    font-weight: 700; 
+}
+
+.word-5k {
+    background: linear-gradient(to right, #ff0000, #f8b6b6); 
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800; 
 }
 
 .typewriter {
-    /* 1. Set the gradient as the background */
     background: var(--main-gradient);
-    
-    /* 2. Cut the background to the shape of the text */
     -webkit-background-clip: text;
     background-clip: text;
-    
-    /* 3. Make the text transparent so we see the background through it */
     -webkit-text-fill-color: transparent;
-    color: transparent; /* Fallback */
+    color: transparent; 
     font-family: 'Space Grotesk', sans-serif;
     display: inline-block;
 }
 
 .cursor {
-display: inline-block;
-width: 2px;
-height: 1em;
-background: var(--main-gradient);
-margin-left: 3px;
-animation: blink 2s infinite;
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background: var(--main-gradient);
+    margin-left: 3px;
+    animation: blink 2s infinite;
 }
 
 @keyframes blink {
@@ -419,95 +459,57 @@ animation: blink 2s infinite;
     50% { opacity: 0; }
 }
 
+/* ========================================================= */
+/* --- HERO BUTTONS & SCROLL INDICATOR ---                   */
+/* ========================================================= */
 
-
-
-/* --- MOBILE HERO ADJUSTMENTS (Max-width 768px) --- */
-@media (max-width: 768px) {
-    
-    /* 1. Adjust Background Image for Portrait */
-    .hero-section {
-        background-position: center center; /* Keep image centered on phone */
-        padding: 0 15px; /* Less padding on sides */
-    
-    }
-
-    /* 2. Shrink the "Hi I'm Cixco" text */
-    .hero-content p.p-name {
-        font-size: 1.5rem; /* Down from 3rem */
-        margin-top: 150px; /* Reduced top margin (was 120px) */
-       
-    }
-
-    /* 3. Shrink the Big Headline */
-    .hero-content h1 {
-        font-size: 2.2rem; /* Down from 3.7rem so it fits on screen */
-        line-height: 1.1;  /* Tighter spacing */
-        padding-top: 15px;
-        padding-bottom: 15px;
-    }
-
-    /* 4. Shrink the Description Text */
-    .hero-content p {
-        font-size: 1rem; /* Down from 1.6rem */
-        line-height: 1.5;
-        max-width: 100%; /* Use full width of phone */
-        padding: 0 10px;
-    }
+.hero-buttons-wrapper {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    gap: 30px; 
+    flex-wrap: wrap; 
+    width: 100%;
 }
 
-
-
-
-
-/* --- THE ANIMATED FRAMER BUTTON --- */
 .framer-btn {
     position: relative;
     display: inline-block;
     text-decoration: none;
     margin-top: 5rem;
-    padding: 2px; /* The border thickness */
+    padding: 2px; 
     border-radius: 50px;
-    background-color: #3435341a; /* Subtle base border */
-    overflow: hidden; /* Keeps the light inside */
+    background-color: #3435341a; 
+    overflow: hidden; 
     transition: transform 1s;
 }
 
-/* --- HERO BUTTONS WRAPPER --- */
-.hero-buttons-wrapper {
-    display: flex;
-    justify-content: center; /* Centers the buttons on the screen */
-    align-items: center;
-    gap: 30px; /* The space between the two buttons */
-    flex-wrap: wrap; /* Safety feature: stacks them if the screen is too small */
-    width: 100%;
+.framer-btn:hover {
+    transform: scale(1.08);
 }
 
-/* LAYER 1: THE MOVING SPOTLIGHT (Animation) */
 .framer-glow {
     position: absolute;
     top: 0;
-    left: -100%; /* Start off-screen to the left */
-    width: 200%; /* Double width to span across */
+    left: -100%; 
+    width: 200%; 
     height: 100%;
     z-index: 1;
-    
-    /* The Moving Light Gradient */
     background: linear-gradient(
         90deg, 
         transparent 0%, 
         rgba(255, 0, 0, 0) 40%, 
-        rgba(255, 0, 0, 1) 50%, /* The Bright Spot */
+        rgba(28, 213, 251, 1) 50%, 
         rgba(255, 0, 0, 0) 60%, 
         transparent 100%
     );
-    
-    /* The Animation Settings */
     animation: spotlightSweep 5s ease-in-out infinite;
 }
 
-/* LAYER 2: THE STATIC TOP GLOW (The "Framer" look you liked) */
-/* We keep this so it always looks lit from the top */
+.framer-btn:hover .framer-glow {
+    animation: spotlightSweep 1s ease-in-out infinite; 
+}
+
 .framer-btn::before {
     content: '';
     position: absolute;
@@ -521,14 +523,12 @@ animation: blink 2s infinite;
     pointer-events: none;
 }
 
-/* LAYER 3: THE CONTENT (Dark Background) */
 .framer-content {
     position: relative;
     z-index: 3;
-    background-color: #141414; /* Deep dark bg */
+    background-color: #141414; 
     border-radius: 50px;
-    border: 0.5px solid;
-    border-color: #000000;
+    border: 0.5px solid #000000;
     padding: 12px 50px;
     display: flex;
     align-items: center;
@@ -541,14 +541,12 @@ animation: blink 2s infinite;
     font-weight: 500;
 }
 
-
 .framer-content-1 {
     position: relative;
     z-index: 3;
-    background-color: #ffffff; /* Deep dark bg */
+    background-color: #ffffff; 
     border-radius: 50px;
-    border: 0.5px solid;
-    border-color: #ffffff;
+    border: 0.5px solid #ffffff;
     padding: 12px 50px;
     display: flex;
     align-items: center;
@@ -561,28 +559,11 @@ animation: blink 2s infinite;
     font-weight: 500;
 }
 
-/* ANIMATION LOGIC */
 @keyframes spotlightSweep {
-    0% {
-        transform: translateX(0%);
-    }
-    100% {
-        transform: translateX(50%); /* Moves the light to the right */
-    }
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(50%); }
 }
 
-/* HOVER EFFECT */
-.framer-btn:hover {
-    transform: scale(1.08);
-}
-
-.framer-btn:hover .framer-glow {
-    animation: spotlightSweep 1s ease-in-out infinite; /* Speed up on hover */
-}
-
-
-
-/* --- SCROLL INDICATOR --- */
 .scroll-indicator {
     display: inline-block;
     margin-top: 1rem;
@@ -591,148 +572,238 @@ animation: blink 2s infinite;
     transition: opacity 0.3s;
 }
 
-/* THE ANIMATION TRIGGER */
 .scroll-indicator svg {
-    /* Apply the custom bounce animation */
     animation: bounceRotate 2s infinite;
 }
 
-
-/* --- THE COMPLEX ANIMATION (Bounce + Rotate) --- */
 @keyframes bounceRotate {
-    /* STATE 1: Default Position */
     0%, 20%, 50%, 80%, 100% {
-        /* 1. Stay at 0px (vertical) */
-        /* 2. Rotate 90 degrees */
         transform: translateY(0) rotate(180deg); 
     }
-    
-    /* STATE 2: Jump Up */
     40% {
-        /* 1. Move Up 10px */
-        /* 2. Rotate 90 degrees */
         transform: translateY(-10px) rotate(180deg);
     }
-    
-    /* STATE 3: Small Hop */
     60% {
         transform: translateY(-5px) rotate(180deg);
     }
 }
 
+/* ========================================================= */
+/* --- MOBILE ADJUSTMENTS (Max-width 768px) ---              */
+/* ========================================================= */
 
-
-
-/* --- MOBILE ADJUSTMENTS FOR BUTTONS --- */
 @media (max-width: 768px) {
     
-    /* 1. Fix the "Mobile Killer" Padding */
-    .framer-content {
-        /* Reduce side padding from 100px to 40px */
-        padding: 12px 80px; 
-        
-        /* Ensure it fits on tiny screens */
-        width: auto; 
-        min-width: 200px; /* Optional: Sets a minimum clickable size */
+   .hero-content {
+    margin-top: 140px;
+    margin-bottom: 30px;
+   }
+
+    .hero-section {
+        background-position: center center; 
+        padding: 0 15px; 
     }
 
-    /* 2. Pull the button up slightly */
+    /* Stacks the image and name vertically so it fits the screen */
+    .greeting-wrapper {
+        flex-direction: column;
+        gap: 20px;
+        margin-top: 40px;
+    }
+    
+    /* Shrinks the profile pic slightly for mobile */
+    .hero-profile-pic {
+        width: 100px;
+        height: 100px;
+    }
+
+    .hero-content p.p-name {
+        font-size: 1.5rem; 
+        margin-top: 0; 
+    }
+
+    .hero-content p.p-name-2 {
+    margin-bottom: 0px;
+    }
+
+    .hero-content h1 {
+        font-size: 2.2rem; 
+        line-height: 1.1;  
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+
+    .hero-content p {
+        font-size: 1rem; 
+        line-height: 1.5;
+        max-width: 100%; 
+        padding: 0 10px;
+    }
+
+    /* Buttons Configuration for Mobile */
+    .hero-buttons-wrapper {
+        flex-direction: column; /* Stacks the buttons cleanly */
+        gap: 15px;
+    }
+
     .framer-btn {
-        margin-top: 2rem; /* Reduced from 4rem so it doesn't look detached */
+        margin-top: 2rem; 
+        width: 100%; /* Makes buttons span the width nicely */
     }
 
-    /* 3. Disable the hover scale (Optional) */
-    /* Phones don't have "hover", and scaling on tap can sometimes cause glitches */
     .framer-btn:hover {
         transform: none; 
     }
+
+    .framer-content, 
+    .framer-content-1 {
+        padding: 15px 20px; 
+        width: 100%; 
+        box-sizing: border-box; /* Crucial: stops horizontal overflow */
+    }
 }
 
+/* ========================================================= */
+/* --- DESKTOP & GLOBAL SETTINGS ---                         */
+/* ========================================================= */
 
+.overlap-image {
+    display: block;
+    margin: 0 auto;           /* Centers the image */
+    margin-top: -180px;       /* Pulls it UP into the section above */
+    position: relative;       /* Required for layer trick */
+    z-index: 10;              /* Forces image on top */
+    width: auto;              /* Adjust size */
+    max-width: 100%;          /* [SAFETY ADDITION] Ensures it never overflows horizontally */
+    height: auto;             /* Keeps proportions */
+}
 
-/* --- Portofolio Section --- */
 .my-recent-work-section {
     padding: 4rem 5%;
-    background: radial-gradient(circle at center, #192043 0%, #1f1120 100%);
+    background: radial-gradient(circle at center, #192043 0%, #0b3b44 100%);
     text-align: center;
 }
 
-.my-recent-work-section  h2 {
+.my-recent-work-section h2 {
+    font-family: 'Poppins', sans-serif;
     font-size: 2.5rem;
-    margin-bottom: 25px;
     color: #fff;
-    font-family: 'Poppins' sans-serif;
+    margin-top: 50px;
+    margin-bottom: 25px;
     padding-top: 40px;
 }
 
-.recent-container {
-    max-width: 1150px;
-    margin: 2rem auto;
+/* ========================================================= */
+/* --- MOBILE ADJUSTMENTS (Max-Width 768px) ---              */
+/* ========================================================= */
+
+@media (max-width: 768px) {
     
-    /* GRID SETTINGS */
+    .overlap-image {
+        /* Dramatically reduce the negative margin so it sits right on the border on phones */
+        margin-top: -40px; 
+        
+        /* Optional: Set a specific max-width here if the image still looks too big on phones */
+        max-width: 100%; 
+    }
+
+    .my-recent-work-section {
+        /* Slightly reduce the overall section padding for smaller screens */
+        padding: 3rem 5%; 
+    }
+
+    .my-recent-work-section h2 {
+        /* Shrink the font size so it fits on one or two neat lines */
+        font-size: 1.8rem; 
+        
+        /* Reduce the top spacing so there isn't a massive gap below the image */
+        margin-top: 20px;
+        padding-top: 20px;
+    }
+}
+
+
+/* --- CATEGORY HEADINGS --- */
+.category-title-div {
+    max-width: 1400px;
+    width: 100%;       
+    margin: 0 auto;    
+}
+
+.category-title {
+    text-align: left; 
+    color: #ffffff; 
+    font-size: 30px;
+    text-decoration: underline;
+    text-transform: uppercase;
+    margin-top: 80px; 
+    margin-bottom: 40px;
+    font-weight: 400;
+}
+
+/* --- GRID SETTINGS --- */
+.recent-container {
+    max-width: 1400px;
+    margin: 2rem auto;
     display: grid;
-    /* Changed 320px to 280px to be safe on ALL phones */
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-    gap: 50px; /* Big gap is fine on desktop */
+    /* Sets the desktop width to 480px */
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); 
+    gap: 50px; 
+}
+
+.browser-window {
+    width: 100%;
+    /* INCREASE THIS NUMBER to make the cards taller on desktop */
+    height: 600px; 
+    background: #000;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+@media (max-width: 768px) {
+    
+    .recent-container {
+        gap: 30px; 
+        margin-top: 1rem;
+        /* Shrinks the minimum width to 280px for mobile phones */
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    }
+
+    .browser-window {
+        /* INCREASE THIS NUMBER if you want them taller on mobile too */
+        height: 400px; 
+    }
+    
 }
 
 /* --- THE CARD WRAPPER --- */
 .browser-card {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centers the header pill */
-    gap: 15px; /* Space between pill and window */
+    align-items: center; 
+    gap: 30px; 
     text-decoration: none;
     color: inherit;
-    transition: transform 0.3s ease;
+    cursor: pointer; 
+    transition: transform 0.3s ease; 
 }
 
-/* --- LOGIC A: CLICKABLE LINKS (The Case Studies) --- */
-/* If the card is an <a> tag */
-a.browser-card {
-    cursor: pointer; /* Shows the Hand icon */
-}
-
-a.browser-card:hover {
-    /* THE LIFT: Only links float up */
+.browser-card:hover {
     transform: translateY(-10px); 
-}
-
-/* THE GLOW: Only links get the Red Border/Glow on hover */
-a.browser-card:hover .card-header {
-    border-color: var(--accent-color); /* Red Border */
-    box-shadow: 0 0 20px rgba(255, 0, 0, 0.4); /* Red Glow */
-    background: rgba(255, 0, 0, 0.05); /* Very subtle red tint inside */
-}
-
-/* --- LOGIC B: NON-CLICKABLE (Just Visuals) --- */
-/* If the card is a <div> tag */
-div.browser-card {
-    cursor: default; /* Regular arrow cursor */
-}
-
-div.browser-card:hover {
-    transform: none; /* No lifting */
-}
-
-/* No glow change for static cards (keeps original purple/blue shadow) */
-div.browser-card:hover .card-header {
-    border-color: rgba(255, 255, 255, 0.2); 
-    box-shadow: 0 0 15px rgba(120, 100, 255, 0.1); 
 }
 
 /* 1. THE FLOATING PILL HEADER */
 .card-header {
-    background: rgba(255, 255, 255, 0.05); /* Glassy dark background */
-    border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+    background: rgba(255, 255, 255, 0.05); 
+    border: 1px solid rgba(255, 255, 255, 0.2); 
     padding: 10px 15px;
-    border-radius: 50px; /* Makes it a perfect pill shape */
-    
-    /* The Glow Effect (Purple/Blue from your image) */
+    border-radius: 50px; 
     box-shadow: 0 0 15px rgba(120, 100, 255, 0.1); 
     backdrop-filter: blur(5px);
-    
-    width: 95%; /* Pill is slightly narrower than the window */
+    width: 95%; 
     text-align: center;
     transition: all 0.3s ease;
 }
@@ -744,10 +815,16 @@ div.browser-card:hover .card-header {
     letter-spacing: 0.5px;
 }
 
+.browser-card:hover .card-header {
+    border-color: var(--accent-color); 
+    box-shadow: 0 0 20px rgba(28, 213, 251, 0.4); 
+    background: rgba(28, 213, 251, 0.05); 
+}
+
 /* 2. THE BROWSER WINDOW FRAME */
 .browser-window {
     width: 100%;
-    height: 450px; /* Desktop Height */
+    height: 450px; 
     background: #000;
     border-radius: 10px;
     overflow: hidden;
@@ -760,68 +837,62 @@ div.browser-card:hover .card-header {
 .window-content {
     width: 100%;
     height: 100%;
-    
-    /* Image Settings */
-    background-size: cover; /* Fits width perfectly */
-    background-position: top center; /* Start at the top */
+    background-size: cover; 
+    background-position: top center; 
     background-repeat: no-repeat;
-    
-    /* THE ANIMATION LOGIC */
-    /* "ease-in-out" makes it start slow and end slow */
-    /* "4s" is how long it takes to scroll down */
     transition: background-position 4s ease-in-out;
 }
 
-/* --- HOVER EFFECT: SCROLL DOWN --- */
 .browser-window:hover .window-content {
-    /* Move the image to the bottom */
     background-position: bottom center;
 }
 
-/* Optional: Add a green glow on hover to match your brand */
-.browser-card:hover .card-header {
-    border-color: var(--accent-color);
-   /* Red (255,0,0) with 30% opacity (0.3) */
-    box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
-}
-
-/* --- MOBILE ADJUSTMENTS (Max-Width 768px) --- */
+/* ========================================================= */
+/* --- MOBILE ADJUSTMENTS (Max-Width 768px) ---              */
+/* ========================================================= */
 @media (max-width: 768px) {
     
-    /* 1. Reduce Gap */
+    .overlap-image {
+        width: 100%;         
+        margin-top: -50px;    
+    }
+    
     .recent-container {
-        gap: 30px; /* 50px is too much empty space on mobile */
+        gap: 30px; 
         margin-top: 1rem;
     }
 
-    /* 2. Shrink Window Height */
     .browser-window {
-        /* 450px is too tall for a phone screen (takes up whole view) */
-        /* 300px lets them see the "Next" card peeking out */
         height: 300px; 
     }
 
-    /* 3. Adjust Header Text */
     .card-header span {
-        font-size: 0.95rem; /* Slightly smaller text */
+        font-size: 0.95rem; 
     }
     
-    /* 4. Fix Title Spacing */
     .my-recent-work-section h2 {
-        font-size: 2rem; /* Smaller heading */
+        font-size: 2rem; 
         padding-top: 0;
+    }
+
+    .category-title {
+        font-size: 24px;
+        margin-top: 40px;
+        margin-bottom: 20px;
     }
 }
 
 
 
+/* ========================================================= */
+/* --- ABOUT SECTION (DESKTOP & GLOBAL) ---                  */
+/* ========================================================= */
 
-
-/* --- ABOUT SECTION --- */
 .about-section {
     padding: 80px 5%;
-    background-color: #150c16; /* Slightly darker than main bg to create depth */
+    background-color: #150c16; 
     position: relative;
+    box-sizing: border-box; /* Prevents padding from breaking width */
 }
 
 .about-container {
@@ -830,7 +901,7 @@ div.browser-card:hover .card-header {
     display: grid;
     grid-template-columns: 1fr 1fr; /* Split 50/50 */
     gap: 60px;
-    align-items: right;
+    align-items: center; /* Fixed invalid 'right' value */
 }
 
 /* --- COLUMN 1: VISUALS --- */
@@ -841,13 +912,12 @@ div.browser-card:hover .card-header {
     margin: 0 auto;
 }
 
-/* The Profile Image Frame */
 .profile-frame {
-    border-radius: 20px;
+    width: 600px;  
+    height: 600px; 
+    margin-left: -100px;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-    transform: rotate(-3deg); /* Jaunty angle for style */
+    transform: rotate(-5deg); 
     transition: transform 0.3s ease;
 }
 
@@ -855,14 +925,14 @@ div.browser-card:hover .card-header {
     width: 100%;
     height: auto;
     display: block;
-    filter: grayscale(100%); /* Cool B&W effect */
+    filter: grayscale(100%); 
     transition: filter 0.3s ease;
 }
 
-/* Hover Effect: Go Color & Straighten */
 .about-visual:hover .profile-frame {
     transform: rotate(0deg);
 }
+
 .about-visual:hover .profile-frame img {
     filter: grayscale(0%);
 }
@@ -870,46 +940,62 @@ div.browser-card:hover .card-header {
 /* THE FLOATING GLASS BADGE */
 .floating-badge {
     position: absolute;
-    top: 40gi0px;
-    right: -20px; /* Floats off the edge */
+    top: 540px; 
     
-    /* Glass Effect */
+    /* THE FIX: Adjusted math to account for the 50px image overhang */
+    right: 0px; 
+    z-index: 10; /* Ensures the badge never hides behind the image */
+    
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    
     padding: 15px 25px;
     border-radius: 16px;
     display: flex;
     align-items: center;
     gap: 15px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    
-    /* Animation */
     animation: float 3s ease-in-out infinite;
 }
 
 .badge-icon {
     font-size: 1.5rem;
-    background: #960c0c;
-    width: 40px; height: 40px;
-    display: flex; align-items: center; justify-content: center;
+    background: #1CD5FB;
+    width: 50px; 
+    height: 50px;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
     border-radius: 50%;
     color: #000;
 }
 
 .badge-text {
-    display: flex; align-items: center;
+    display: flex; 
+    align-items: flex-start;
     flex-direction: column;
 }
 
-.b-title { font-weight: bold; color: #ffffff; font-size: 0.9rem; }
-.b-sub { font-size: 0.8rem; color: #ffffff; }
+.b-title { 
+    font-weight: bold; 
+    color: #ffffff; 
+    font-size: 0.9rem; 
+}
+
+.b-sub { 
+    font-size: 0.8rem; 
+    color: #ffffff; 
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
 
 /* --- COLUMN 2: TEXT --- */
 .section-tag {
     color: var(--accent-color);
-    font-family: 'Poppins' sans-serif;
+    font-family: 'Poppins', sans-serif;
     letter-spacing: 2px;
     font-size: 2.5rem;
     font-weight: bold;
@@ -928,7 +1014,6 @@ div.browser-card:hover .card-header {
 
 .highlight {
     color: #fff;
-    /* Underline effect */
     border-bottom: 3px solid var(--accent-color);
 }
 
@@ -939,7 +1024,7 @@ div.browser-card:hover .card-header {
     font-size: 1rem;
 }
 
-/* SKILLS PILLS */
+/* --- SKILLS PILLS --- */
 .skills-wrapper h3 {
     font-size: 1.3rem;
     color: #fff;
@@ -948,7 +1033,7 @@ div.browser-card:hover .card-header {
 
 .skills-grid {
     display: flex;
-    flex-wrap: wrap; /* Allows pills to drop to next line */
+    flex-wrap: wrap; 
     gap: 10px;
 }
 
@@ -968,38 +1053,14 @@ div.browser-card:hover .card-header {
     transform: translateY(-3px);
 }
 
-/* FLOATING ANIMATION */
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
+/* ========================================================= */
+/* --- CERTIFICATIONS ---                                    */
+/* ========================================================= */
 
-/* RESPONSIVE (Mobile) */
-@media (max-width: 900px) {
-    .about-container {
-        grid-template-columns: 1fr; /* Stack vertically */
-        text-align: center;
-    }
-    
-    .about-visual { margin-bottom: 50px; }
-    
-    .floating-badge {
-        right: 0; left: 0; margin: auto; /* Center badge on mobile */
-        width: fit-content;
-        bottom: -20px;
-    }
-    
-    .skills-grid {
-        justify-content: center;
-    }
-}
-
-
-/* --- CERTIFICATIONS (The Subtle Flex) --- */
 .certifications-wrapper {
     margin-top: 30px;
     padding-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Thin divider line */
+    border-top: 1px solid rgba(255, 255, 255, 0.1); 
     display: flex;
     align-items: center;
     gap: 20px;
@@ -1009,7 +1070,7 @@ div.browser-card:hover .card-header {
     font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: #666; /* Dark grey text */
+    color: #666; 
     font-weight: bold;
 }
 
@@ -1017,131 +1078,57 @@ div.browser-card:hover .card-header {
     display: flex;
     gap: 15px;
     align-items: center;
+    flex-wrap: wrap; 
+    max-width: 500px; 
+    width: 100%;      
 }
 
 .cert-badge img {
-    height: 80px; /* Keep them small and elegant */
+    height: 90px; 
     width: auto;
-    
-    /* THE SUBTLE VIBE: */
     filter: grayscale(100%) opacity(0.5); 
     transition: all 0.3s ease;
 }
 
-/* HOVER: Bring them to life */
 .cert-badge:hover img {
     filter: grayscale(0%) opacity(1);
-    transform: scale(1.1); /* Slight pop */
+    transform: scale(1.1); 
     cursor: pointer;
 }
 
-/* Mobile Adjustment */
-@media (max-width: 900px) {
-    .certifications-wrapper {
-        flex-direction: column; /* Stack label on top of badges */
-        gap: 10px;
-    }
-}
+/* ========================================================= */
+/* --- TOOLS CAROUSEL ---                                    */
+/* ========================================================= */
 
-
-
-
-/* --- MOBILE RESPONSIVENESS (Max-Width 900px) --- */
-@media (max-width: 900px) {
-    
-    /* 1. Reduce Massive Padding */
-    .about-section {
-        padding: 50px 5%; /* Reduced from 80px */
-    }
-
-    /* 2. Stack Layout Vertically */
-    .about-container {
-        grid-template-columns: 1fr;
-        gap: 40px; /* Bring elements closer */
-        text-align: center;
-    }
-
-    /* 3. Resize Big Headings */
-    .section-tag {
-        font-size: 1.8rem; /* Down from 2.5rem */
-        padding-bottom: 20px;
-    }
-
-    .about-text h2 {
-        font-size: 2rem; /* Down from 2.5rem */
-        margin-bottom: 20px;
-    }
-
-    /* 4. Center the Badge on Mobile */
-    .floating-badge {
-        right: 0; left: 0; margin: auto; /* Centers it */
-        width: fit-content;
-        bottom: -25px; /* Pushes it slightly lower */
-    }
-
-    /* 5. Center the Skills */
-    .skills-grid {
-        justify-content: center;
-    }
-
-    /* 6. Certifications Cleanup */
-    .certifications-wrapper {
-        flex-direction: column;
-        gap: 15px;
-        margin-top: 40px;
-    }
-    
-    .cert-row {
-        justify-content: center; /* Center the logos */
-    }
-
-    /* Resize Badges for Mobile */
-    .cert-badge img {
-        height: 60px; /* Down from 80px to fit better */
-    }
-}
-
-
-
-
-
-/* --- TOOLS CAROUSEL SECTION --- */
 .tools-section {
     padding: 40px 0;
-    background-color: #0c0b0d; /* Matches your dark theme */
+    background-color: #0c0b0d; 
     text-align: center;
-    overflow: hidden; /* Hides the scrollbar */
+    overflow: hidden; 
 }
 
 .tools-section h2 {
     margin-bottom: 40px;
     font-size: 1.1rem;
-    color: #888; /* Subtle gray heading */
+    color: #888; 
     text-transform: uppercase;
-   
 }
 
-/* THE SLIDER CONTAINER */
 .slider {
     height: 100px;
     margin: auto;
     position: relative;
     width: 100%;
-    
-    /* Optional: Fade edges to look premium */
-    /* This creates a vignette effect on left/right so logos fade in/out */
     mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
     -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 }
 
-/* THE MOVING TRACK */
 .slide-track {
     display: flex;
-    width: calc(250px * 14); /* 250px per slide x 14 slides (7 original + 7 copies) */
+    width: calc(250px * 14); 
     animation: scroll 40s linear infinite;
 }
 
-/* INDIVIDUAL LOGO BOX */
 .slide {
     height: 100px;
     width: 250px;
@@ -1150,67 +1137,118 @@ div.browser-card:hover .card-header {
     justify-content: center;
 }
 
-/* LOGO STYLING */
 .slide img {
-    width: 150px;       /* Max width of logo */
+    width: 150px;       
     height: auto;
-    max-height: 60px;   /* Keep them consistent height */
+    max-height: 60px;   
     transition: all 0.3s ease;
     cursor: auto;
 }
 
-/* HOVER EFFECT: Colorize */
 .slide img:hover {
-    transform: scale(1.1); /* Slight pop */
+    transform: scale(1.1); 
 }
 
-/* THE ANIMATION MATH */
 @keyframes scroll {
-    0% {
-        transform: translateX(0);
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-250px * 7)); }
+}
+
+/* ========================================================= */
+/* --- ALL MOBILE ADJUSTMENTS ---                            */
+/* ========================================================= */
+
+/* TABLET & PHONE RULES (Max-Width 900px) */
+@media (max-width: 900px) {
+    
+    /* 1. About Layout */
+    .about-section {
+        padding: 50px 5%; 
     }
-    100% {
-        /* Move exactly half the width (the length of one set) */
-        /* If you have 7 logos and they are 250px each: 7 * 250 = 1750px */
-        transform: translateX(calc(-250px * 7)); 
+
+    .about-container {
+        grid-template-columns: 1fr;
+        gap: 40px; 
+        text-align: center;
+    }
+
+    /* 2. Visuals & Badge Fixes */
+    .about-visual { 
+        margin-bottom: 50px; 
+    }
+
+    /* [CRITICAL OVERFLOW FIX] Stops the 600px image from breaking the phone screen */
+    .profile-frame {
+        width: 100%;
+        max-width: 350px; /* Keeps it reasonably sized */
+        height: auto;
+        margin: 0 auto; /* Removes the negative margin */
+        aspect-ratio: 1 / 1; /* Keeps it a perfect square */
+    }
+
+    .floating-badge {
+        right: 0; 
+        left: 0; 
+        margin: auto; 
+        width: fit-content;
+        
+        /* Pushes it to the bottom of the image instead of the top */
+        top: auto; 
+        bottom: -25px; 
+    }
+    
+
+    /* 3. Typography Cleanup */
+    .section-tag {
+        font-size: 1.8rem; 
+        padding-bottom: 20px;
+    }
+
+    .about-text h2 {
+        font-size: 2rem; 
+        margin-bottom: 20px;
+    }
+
+    /* 4. Center Alignments */
+    .skills-grid, .cert-row {
+        justify-content: center;
+    }
+
+    /* 5. Certifications Layout */
+    .certifications-wrapper {
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 40px;
+    }
+
+    .cert-badge img {
+        height: 60px; 
     }
 }
 
-/* --- MOBILE TOOLS CAROUSEL ADJUSTMENTS --- */
+/* SMALL PHONE SPECIFIC RULES (Max-Width 768px) */
 @media (max-width: 768px) {
     
-    /* 1. Shrink the track logic */
-    /* On mobile, we make the slots smaller (150px instead of 250px) */
+    /* 1. Tools Carousel Adjustments */
     .slide-track {
-        /* Update Math: 150px * 14 slides */
         width: calc(150px * 14); 
     }
 
-    /* 2. Shrink the individual slot */
     .slide {
-        width: 150px; /* Reduced from 250px */
+        width: 150px; 
     }
 
-    /* 3. Shrink the actual logo image */
     .slide img {
-        width: 100px;     /* Reduced from 150px */
-        max-height: 40px; /* Reduced from 60px */
+        width: 100px;     
+        max-height: 40px; 
     }
 
-    /* 4. Update the Animation Logic for the new size */
-    /* WE MUST OVERWRITE THE KEYFRAMES FOR MOBILE */
+    /* Overwrites desktop animation math for smaller slots */
     @keyframes scroll {
-        0% { 
-            transform: translateX(0); 
-        }
-        100% { 
-            /* New Math: 7 original slides * 150px width = -1050px */
-            transform: translateX(calc(-150px * 7)); 
-        }
+        0% { transform: translateX(0); }
+        100% { transform: translateX(calc(-150px * 7)); }
     }
 }
-
-
 
 
 
@@ -1665,12 +1703,12 @@ details[open] {
     border-radius: 50px;
     text-decoration: none;
     transition: all 0.3s ease;
-    box-shadow: 0 10px 30px rgba(255, 0, 0, 0.3);
+    box-shadow: 0 10px 30px rgba(28, 213, 251, 0.3);
 }
 
 .upwork-btn:hover {
     transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 15px 40px rgba(255, 0, 0, 0.5);
+    box-shadow: 0 15px 40px rgba(28, 213, 251, 0.5);
     background-color: var(--accent-color); /* Slightly brighter on hover */
 }
 
@@ -2140,5 +2178,48 @@ footer {
     
     .cs-cta h3 {
         font-size: 1.5rem;
+    }
+}
+
+/* --- WHATSAPP FLOATING BUTTON --- */
+.whatsapp-float {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 40px;
+    right: 40px;
+    background-color: #25d366; 
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 9999; 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.whatsapp-float:hover {
+    transform: translateY(-5px); 
+    box-shadow: 0 6px 15px rgba(37, 211, 102, 0.4); 
+}
+
+.wa-icon {
+    width: 35px;
+    height: 35px;
+    fill: #ffffff; 
+}
+
+/* --- MOBILE ADJUSTMENTS --- */
+@media (max-width: 768px) {
+    .whatsapp-float {
+        width: 55px;
+        height: 55px;
+        bottom: 25px; 
+        right: 20px;
+    }
+
+    .wa-icon {
+        width: 30px;
+        height: 30px;
     }
 }

@@ -15,7 +15,7 @@ window.addEventListener('scroll', () => {
 
 
 // --- TYPEWRITER EFFECT --- //
-const textToType = "Francis Asogbalaji. "; // The text you want to type
+const textToType = "FRANCIS... "; // The text you want to type
 const typeSpeed = 70;  // How fast it types (ms)
 const deleteSpeed = 50; // How fast it deletes (ms)
 const pauseTime = 2000; // How long it waits after typing before deleting
