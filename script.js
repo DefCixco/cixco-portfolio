@@ -14,6 +14,16 @@ window.addEventListener('scroll', () => {
 });
 
 
+window.addEventListener("load", () => {
+    const loader = document.getElementById("loader-wrapper");
+    
+    // Add a small delay so the animation doesn't vanish instantly 
+    // and looks intentional
+    setTimeout(() => {
+        loader.classList.add("loader-hidden");
+    }, 800); // 800 milliseconds delay
+});
+
 // --- TYPEWRITER EFFECT --- //
 const textToType = "FRANCIS... "; // The text you want to type
 const typeSpeed = 70;  // How fast it types (ms)
